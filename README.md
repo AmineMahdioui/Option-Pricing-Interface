@@ -1,6 +1,6 @@
 # Option Pricing Web Application
 
-![Platform Preview](image/platform_option_pricing.png)
+![Platform Preview](images/platform_option_pricing.png)
 
 This is a Streamlit web application for option pricing using various models. It provides features for option pricing, tree plotting, and model comparison.
 
@@ -57,10 +57,10 @@ This application provides a user-friendly interface to perform option pricing us
 
 ## Screenshots
 
-![Option Pricing](image/platform_option_pricing.png)
+![Option Pricing](images/platform_option_pricing.png)
 
-![Tree Plotter](image/platform_tree.png)
+![Tree Plotter](images/platform_tree.png)
 
-![Model Comparison 1](image/platform_convergance1.png)
+![Model Comparison 1](images/platform_Convergance1.png)
 
-![Model Comparison 2](image/platform_convergance2.png)
+![Model Comparison 2](images/platform_Convergance2.png)
