@@ -21,28 +21,29 @@ class BinomialTree:
                     self.G.add_edge(parent, left_child)
 
     def set_node_labels(self):
-        for node in self.G.nodes():
-            i, j = node
-        try:
-          self.labels[node] = f"$V_{{{i}}}={self.matrix[i][j]:.2f}$"
-        except IndexError:
-          self.labels[node] = 'out_of_bounds'
+      for node in self.G.nodes():
+          i, j = node
+          try:
+              self.labels[node] ="$V_{"+str(i)+"}"+f"$={self.matrix[i][j]:.2f}"
+          except Exception:
+              self.labels[node] ='outofbound'
+
 
     def draw_tree(self):
       # compute layout; prefer graphviz if available otherwise fallback
-      if self.pos is None:
-        try:
-          self.pos = nx.nx_pydot.graphviz_layout(self.G, prog='dot')
-        except Exception:
-          self.pos = nx.spring_layout(self.G)
+        if self.pos is None:
+            self.pos = nx.nx_pydot.graphviz_layout(self.G, prog='dot')
 
-      scale = 1.0 / max(len(self.matrix), 1)
-      pos_graphviz = {k: (-v[1], v[0]) for k, v in self.pos.items()}
+        scale = 1.0 / len(self.matrix)
+        pos = nx.nx_pydot.graphviz_layout(self.G, prog='dot')
+        # pos_graphviz = {k: (-v[1] * scale, v[0] * scale) for k, v in pos.items()}
 
-      fig, ax = plt.subplots(figsize=(10 + int(1 / scale), int(1 / scale)))
+        pos_graphviz = {k: (-v[1], v[0]) for k, v in self.pos.items()}
 
-      nx.draw(self.G, pos_graphviz, with_labels=True, labels=self.labels, node_size=1000, node_color='#FF0800', font_size=10, font_color='black', ax=ax)
-      return fig
+        fig, ax = plt.subplots(figsize=(10+int(1/scale), int(1/scale)))
+
+        nx.draw(self.G, pos_graphviz, with_labels=True, labels=self.labels, node_size=1000, node_color='#FF0800', font_size=10, font_color='black')
+        plt.show()
         
         
 if __name__ == '__main__':
