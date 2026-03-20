@@ -26,7 +26,7 @@ class TrinomialTree:
         for node in self.G.nodes():
             i, j = node
             try:
-                self.labels[node] = f"$V_{{{i}}}={self.matrix[i][j]:.2f}$"
+                self.labels[node] ="$V_{"+str(i)+"}"+f"$={self.matrix[i][j]:.2f}"
             except IndexError:
                 self.labels[node] = 'out_of_bounds'
 
