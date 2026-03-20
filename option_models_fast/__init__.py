@@ -1,5 +1,11 @@
-from .Binomials import jarrow_rudd, cox_ross_rubinstein
-from .Trinomials import kamrad_ritchken
+try:
+    from .Binomials import jarrow_rudd, cox_ross_rubinstein
+    from .Trinomials import kamrad_ritchken
+except Exception:
+    # compiled extensions not available: fall back to pure-Python implementations
+    from option_models.Binomials import jarrow_rudd, cox_ross_rubinstein
+    from option_models.Trinomials import kamrad_ritchken
+
 import math
 from scipy import stats
 
