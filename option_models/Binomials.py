@@ -1,5 +1,5 @@
-import math,scipy as stats,numpy as np
-from scipy import stats
+import math
+import numpy as np
 
 def jarrow_rudd(s, k, t, v, rf, cp, am=False,n=100,return_trees=False):
     """Price an option using the Jarrow-Rudd binomial model.
@@ -45,7 +45,7 @@ def jarrow_rudd(s, k, t, v, rf, cp, am=False,n=100,return_trees=False):
 
 
 def cox_ross_rubinstein(s, k, t, v, rf, cp, am=False,n=100,return_trees=False):
-    """Price an option using the Jarrow-Rudd binomial model.
+    """Price an option using the Cox-Ross-Rubinstein (CRR) binomial model.
     
     s : initial stock price
     k : strike price
@@ -93,6 +93,6 @@ if __name__ == "__main__":
     T = 0.5
     r = 0.05
     sigma = 0.25
-
-    print(cox_ross_rubinstein(S, K, T, r, sigma,-1,n=3,return_trees=True))
-    print(jarrow_rudd(S, K, T, r, sigma,-1,n=3,return_trees=True))
+    # Example usage (demo): use correct argument ordering (s, k, t, v, rf, cp)
+    print(cox_ross_rubinstein(S, K, T, sigma, r, -1, n=3, return_trees=True))
+    print(jarrow_rudd(S, K, T, sigma, r, -1, n=3, return_trees=True))

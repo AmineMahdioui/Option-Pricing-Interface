@@ -1,7 +1,8 @@
-import math,scipy as stats,numpy as np
-from scipy import stats
-def kamrad_ritchken(s, k, t, v, rf, cp, am=False, n=100,return_trees=False):
-    """Price an option using the kamrad-ritchken binomial model.
+import math
+import numpy as np
+
+def kamrad_ritchken(s, k, t, v, rf, cp, am=False, n=100, return_trees=False):
+    """Price an option using the Kamrad-Ritchken trinomial model.
     
     s : initial stock price
     k : strike price

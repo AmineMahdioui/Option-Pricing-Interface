@@ -1,6 +1,6 @@
-from .Binomials import *
-from .Trinomials import *
-import math,scipy as stats,numpy as np
+from .Binomials import jarrow_rudd, cox_ross_rubinstein
+from .Trinomials import kamrad_ritchken
+import math
 from scipy import stats
 
 def black_scholes(s, k, t, v, rf, cp,am=False,n=100):
