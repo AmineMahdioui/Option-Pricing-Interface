@@ -5,4 +5,5 @@ matplotlib
 plotly
 networkx
 cython
-pydot==2.0.0
+pydot
+graphviz
