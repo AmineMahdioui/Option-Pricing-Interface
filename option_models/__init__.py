@@ -13,6 +13,9 @@ def black_scholes(s, k, t, v, rf, cp,am=False,n=100):
     rf : risk-free rate
     cp : +1/-1 for call/put
     """
+    if v <= 0 or t <= 0:
+        raise ValueError("`sigma` (v) and `T` (t) must be > 0")
+
     d1 = (math.log(s/k)+(rf+0.5*math.pow(v,2))*t)/(v*math.sqrt(t))
     d2 = d1 - v*math.sqrt(t)
     optprice = cp*s*stats.norm.cdf(cp*d1) - \

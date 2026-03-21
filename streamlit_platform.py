@@ -69,7 +69,8 @@ option_functions_default = {
     'Kamrad-Ritchken': option_models.kamrad_ritchken
 }
 option_functions_fast = {
-    'Black-Scholes': option_models_fast.black_scholes,
+    # Black-Scholes currently has no compiled/Cython implementation; keep using the reference implementation here
+    'Black-Scholes': option_models.black_scholes,
     'Jarrow-Rudd': option_models_fast.jarrow_rudd,
     'Cox-Ross-Rubinstein': option_models_fast.cox_ross_rubinstein,
     'Kamrad-Ritchken': option_models_fast.kamrad_ritchken
@@ -86,9 +87,9 @@ if pricing_method == OPTION_PRICING_MODEL.OPTION_PRICING.value:
     function_choice = st.radio("Select pricing model:", list(option_functions.keys()))
     S = st.sidebar.number_input('Stock Price (S):', value=S)
     K = st.sidebar.number_input('Strike (K):', value=K)
-    T = st.sidebar.number_input('Time to Maturity (T):', value=T)
+    T = st.sidebar.number_input('Time to Maturity (T):', value=T, min_value=1e-8)
     r = st.sidebar.number_input('Risk-Free Rate (r):', value=r)
-    sigma = st.sidebar.number_input('Volatility (sigma):', value=sigma)
+    sigma = st.sidebar.number_input('Volatility (sigma):', value=sigma, min_value=1e-8)
     option_call_put = st.sidebar.radio('Please select option kind', options=['Call','Put'])
     cp = 1 if option_call_put == "Call" else -1
     n=None
@@ -111,9 +112,9 @@ elif pricing_method == OPTION_PRICING_MODEL.Tree_plot.value:
     function_choice = st.radio("Select pricing model:", ['Jarrow-Rudd', 'Cox-Ross-Rubinstein', 'Kamrad-Ritchken'])
     S = st.sidebar.number_input('Stock Price (S):', value=S,)
     K = st.sidebar.number_input('Strike (K):', value=K)
-    T = st.sidebar.number_input('Time to Maturity (T):', value=T)
+    T = st.sidebar.number_input('Time to Maturity (T):', value=T, min_value=1e-8)
     r = st.sidebar.number_input('Risk-Free Rate (r):', value=r)
-    sigma = st.sidebar.number_input('Volatility (sigma):', value=sigma)
+    sigma = st.sidebar.number_input('Volatility (sigma):', value=sigma, min_value=1e-8)
     option_call_put = st.sidebar.radio('Please select option kind', options=['Call','Put'])
     cp = 1 if option_call_put == "Call" else -1
     option_type = st.sidebar.radio('Please select option type', options=[op_type.value for op_type in EU_AM])
@@ -138,9 +139,9 @@ elif pricing_method == OPTION_PRICING_MODEL.Comparison.value:
     st.title(pricing_method)
     S = st.sidebar.number_input('Stock Price (S):', value=S,)
     K = st.sidebar.number_input('Strike (K):', value=K)
-    T = st.sidebar.number_input('Time to Maturity (T):', value=T)
+    T = st.sidebar.number_input('Time to Maturity (T):', value=T, min_value=1e-8)
     r = st.sidebar.number_input('Risk-Free Rate (r):', value=r)
-    sigma = st.sidebar.number_input('Volatility (sigma):', value=sigma)
+    sigma = st.sidebar.number_input('Volatility (sigma):', value=sigma, min_value=1e-8)
     option_call_put = st.sidebar.radio('Please select option kind', options=['Call','Put'])
     cp = 1 if option_call_put == "Call" else -1
 
@@ -155,9 +156,9 @@ elif pricing_method == OPTION_PRICING_MODEL.Comparison.value:
             if not am:
                 bs_prices = [option_models.black_scholes(S, K, T, sigma, r, cp) for _ in n_values]
             if Fast_option:
-                jr_prices = [option_models_fast.jarrow_rudd(S, K, T, sigma, r, cp, n=int(n)) for n in n_values]
-                crr_prices = [option_models_fast.cox_ross_rubinstein(S, K, T, sigma, r, cp, n=int(n)) for n in n_values]
-                kr_prices = [option_models_fast.kamrad_ritchken(S, K, T, sigma, r, cp, n=int(n)) for n in n_values]
+                jr_prices = [option_models_fast.jarrow_rudd(S, K, T, sigma, r, cp, am=am, n=int(n)) for n in n_values]
+                crr_prices = [option_models_fast.cox_ross_rubinstein(S, K, T, sigma, r, cp, am=am, n=int(n)) for n in n_values]
+                kr_prices = [option_models_fast.kamrad_ritchken(S, K, T, sigma, r, cp, am=am, n=int(n)) for n in n_values]
             else:
                 jr_prices = [option_models.jarrow_rudd(S, K, T, sigma, r, cp,am=am, n=int(n)) for n in n_values]
                 crr_prices = [option_models.cox_ross_rubinstein(S, K, T, sigma, r, cp,am=am, n=int(n)) for n in n_values]

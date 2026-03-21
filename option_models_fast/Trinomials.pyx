@@ -3,7 +3,7 @@ import numpy as np
 cimport numpy as np
 
 cpdef kamrad_ritchken(double s, double k, double t, double v, double rf, int cp, bint am=False, int n=100, bint return_trees=False):
-    """Price an option using the kamrad-ritchken binomial model.
+    """Price an option using the Kamrad-Ritchken trinomial model.
     
     s : initial stock price
     k : strike price
@@ -14,6 +14,12 @@ cpdef kamrad_ritchken(double s, double k, double t, double v, double rf, int cp,
     am : True/False for American/European
     n : trinomial steps
     """
+    # Validate inputs
+    if n <= 0:
+        raise ValueError("`n` must be a positive integer")
+    if v <= 0 or t <= 0:
+        raise ValueError("`sigma` (v) and `T` (t) must be > 0")
+
     # Basic calculations
     cdef double h = t/n
     cdef double mu = rf - v**2/2

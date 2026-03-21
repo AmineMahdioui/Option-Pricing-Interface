@@ -13,6 +13,12 @@ def jarrow_rudd(s, k, t, v, rf, cp, am=False,n=100,return_trees=False):
     am : True/False for American/European
     n : binomial steps
     """
+    # Validate inputs
+    if n is None or n <= 0:
+        raise ValueError("`n` must be a positive integer")
+    if v <= 0 or t <= 0:
+        raise ValueError("`sigma` (v) and `T` (t) must be > 0")
+
     #Basic calculations
     h = t/n
     u = math.exp((rf-0.5*math.pow(v,2))*h+v*math.sqrt(h))
@@ -56,6 +62,12 @@ def cox_ross_rubinstein(s, k, t, v, rf, cp, am=False,n=100,return_trees=False):
     am : True/False for American/European
     n : binomial steps
     """
+    # Validate inputs
+    if n is None or n <= 0:
+        raise ValueError("`n` must be a positive integer")
+    if v <= 0 or t <= 0:
+        raise ValueError("`sigma` (v) and `T` (t) must be > 0")
+
     #Basic calculations
     h = t/n
     u = math.exp(v*math.sqrt(h))

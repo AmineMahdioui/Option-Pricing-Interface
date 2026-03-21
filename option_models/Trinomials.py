@@ -13,6 +13,12 @@ def kamrad_ritchken(s, k, t, v, rf, cp, am=False, n=100, return_trees=False):
     am : True/False for American/European
     n : trinomial steps
     """
+    # Validate inputs
+    if n is None or n <= 0:
+        raise ValueError("`n` must be a positive integer")
+    if v <= 0 or t <= 0:
+        raise ValueError("`sigma` (v) and `T` (t) must be > 0")
+
     #Basic calculations
     h = t/n
     mu=rf-v**2/2
@@ -52,4 +58,5 @@ if __name__ == "__main__":
     r = 0.05
     sigma = 0.25
 
-    print(kamrad_ritchken(S, K, T, r, sigma,-1,n=3,return_trees=True))
+    # Note: function signature is (s, k, t, v, rf, cp,...)
+    print(kamrad_ritchken(S, K, T, sigma, r, -1, n=3, return_trees=True))
