@@ -31,19 +31,19 @@ class BinomialTree:
 
     def draw_tree(self):
       # compute layout; prefer graphviz if available otherwise fallback
-        if self.pos is None:
-            self.pos = nx.nx_pydot.graphviz_layout(self.G, prog='dot')
+      if self.pos is None:
+        try:
+          self.pos = nx.nx_pydot.graphviz_layout(self.G, prog='dot')
+        except Exception:
+          self.pos = nx.spring_layout(self.G)
 
-        scale = 1.0 / len(self.matrix)
-        pos = nx.nx_pydot.graphviz_layout(self.G, prog='dot')
-        # pos_graphviz = {k: (-v[1] * scale, v[0] * scale) for k, v in pos.items()}
+      scale = 1.0 / max(len(self.matrix), 1)
+      pos_graphviz = {k: (-v[1], v[0]) for k, v in self.pos.items()}
 
-        pos_graphviz = {k: (-v[1], v[0]) for k, v in self.pos.items()}
+      fig, ax = plt.subplots(figsize=(10 + int(1 / scale), int(1 / scale)))
 
-        fig, ax = plt.subplots(figsize=(10+int(1/scale), int(1/scale)))
-
-        nx.draw(self.G, pos_graphviz, with_labels=True, labels=self.labels, node_size=1000, node_color='#FF0800', font_size=10, font_color='black')
-        plt.show()
+      nx.draw(self.G, pos_graphviz, with_labels=True, labels=self.labels, node_size=1000, node_color='#FF0800', font_size=10, font_color='black', ax=ax)
+      return fig
         
         
 if __name__ == '__main__':

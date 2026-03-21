@@ -33,12 +33,15 @@ class TrinomialTree:
     def draw_tree(self):
         # compute layout; prefer graphviz if available otherwise fallback
         if self.pos is None:
-            self.pos = nx.nx_pydot.graphviz_layout(self.G, prog='dot')
+            try:
+                self.pos = nx.nx_pydot.graphviz_layout(self.G, prog='dot')
+            except Exception:
+                self.pos = nx.spring_layout(self.G)
 
         pos_graphviz = {k: (-v[1], -v[0]) for k, v in self.pos.items()}
 
-        scale = 1.0 / len(self.matrix)
-        fig, ax = plt.subplots(figsize=(15, int(1/scale)))
+        scale = 1.0 / max(len(self.matrix), 1)
+        fig, ax = plt.subplots(figsize=(15, int(1 / scale)))
 
-        nx.draw(self.G, pos_graphviz, with_labels=True, labels=self.labels, node_size=1000, node_color='#FF0800', font_size=10, font_color='black')
-        plt.show()
+        nx.draw(self.G, pos_graphviz, with_labels=True, labels=self.labels, node_size=1000, node_color='#FF0800', font_size=10, font_color='black', ax=ax)
+        return fig
